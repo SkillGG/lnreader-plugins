@@ -15,7 +15,7 @@
     "lint": "npx eslint .",
     "prepare": "husky install",
     "prettier": "prettier --write \"./**/*.{js,ts}\"",
-    "proxy": "node proxy_server.js",
+    "proxy": "node server.js",
     "start": "node importPlugins.js && concurrently \"npm run dev\" \"npm run proxy\"",
     "test": "exit 0"
   },

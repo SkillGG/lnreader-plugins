@@ -15,11 +15,19 @@ import 'protobufjs';
 const { fetch: originalFetch } = window;
 window.fetch = async (...args) => {
   const [resource, config] = args;
-  const _res = await originalFetch('http://localhost:3001/' + resource, {
-    ...config,
-    credentials: 'include',
-    mode: 'cors',
-  });
+
+  const link = resource instanceof Request ? resource.url : resource.toString();
+
+  const PROXY = `http://localhost:3001`;
+
+  const _res = await originalFetch(
+    `${PROXY}/${resource === 'cookies' ? '' : 'text/'}${encodeURIComponent(link)}`,
+    {
+      ...config,
+      credentials: 'include',
+      mode: 'cors',
+    },
+  );
   Object.defineProperty(_res, 'url', {
     value: _res.url.includes('localhost') ? resource.toString() : _res.url,
   });
